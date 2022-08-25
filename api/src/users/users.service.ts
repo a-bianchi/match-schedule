@@ -1,30 +1,23 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { InjectKnex, Knex } from 'nestjs-knex';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as bycryptjs from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
-
-import { User } from './entities/user.entity';
+import { Model } from 'mongoose';
+import { Users, UsersDocument } from './schema';
 import { Tokens } from 'src/auth/types';
-import { Events } from '@skydropx/dml-dynamodb/dist/types';
 
-interface UserCreateResponse extends User, Tokens {}
+import { InjectModel } from '@nestjs/mongoose';
+
+interface UserCreateResponse extends Users, Tokens {}
 
 @Injectable()
 export class UsersService {
-  private dbDataInsert: DbDataInsert;
-
   constructor(
     private readonly config: ConfigService,
     private readonly jwtService: JwtService,
-    @InjectKnex() private readonly knex: Knex,
-  ) {
-    this.dbDataInsert = new DbDataInsert(
-      this.config.get<string>('EVENT_STORE_NAME') || '',
-      this.config.get<string>('AWS_REGION') || 'us-east-1',
-    );
-  }
+    @InjectModel(Users.name) private readonly usersModel: Model<UsersDocument>,
+  ) {}
 
   async createUser(
     email: string,
@@ -40,23 +33,13 @@ export class UsersService {
       const tokens = await this.getTokens(userId, email);
       const hashrt = await bycryptjs.hash(tokens.refresh_token, 10);
 
-      const newUserEvent = await this.dbDataInsert.insert({
-        aggregateId: userId,
+      const newUser = await this.usersModel.create({
+        user_id: userId,
         email,
         hash,
         hashrt,
-        eventType: Events.UserRegistered,
+        created_at: new Date().toISOString(),
       });
-
-      const newUser: User = {
-        id: newUserEvent?.Item?.aggregateId,
-        sequence: newUserEvent?.Item?.sequence,
-        email,
-        hash,
-        hashrt,
-        createdat: newUserEvent?.Item?.createdAt,
-        updatedat: newUserEvent?.Item?.createdAt,
-      };
 
       return {
         ...tokens,
@@ -96,33 +79,21 @@ export class UsersService {
         ? await bycryptjs.hash(refresh_token, 10)
         : null;
 
-      await this.dbDataInsert.insert({
-        aggregateId: userId,
-        hashrt,
-        eventType: Events.UserRtUpdated,
-      });
+      await this.usersModel
+        .findOneAndUpdate({ user_id: userId }, { hashrt })
+        .exec();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async getUserByEmail(email: string): Promise<User | undefined> {
-    const queryUser = this.knex
-      .select<User>('*')
-      .from('users')
-      .where({ email })
-      .first();
-
+  async getUserByEmail(email: string): Promise<Users | undefined> {
+    const queryUser = this.usersModel.findOne<Users>({ email }).exec();
     return await queryUser;
   }
 
-  async getUserById(userId: string): Promise<User | undefined> {
-    const queryUser = this.knex
-      .select<User>('*')
-      .from('users')
-      .where({ id: userId })
-      .first();
-
+  async getUserById(userId: string): Promise<Users | undefined> {
+    const queryUser = this.usersModel.findOne<Users>({ _id: userId }).exec();
     return await queryUser;
   }
 }
