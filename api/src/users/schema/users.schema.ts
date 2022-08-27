@@ -5,13 +5,21 @@ export type UsersDocument = Users & Document;
 
 @Schema()
 export class Users {
-  @Prop()
+  @Prop({
+    required: true,
+    unique: true,
+  })
   user_id: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+    unique: true,
+  })
   email: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   hash: string;
 
   @Prop()
@@ -20,11 +28,11 @@ export class Users {
   @Prop({ default: true })
   isActive: boolean;
 
-  @Prop()
-  createdat: string;
+  @Prop({ default: Date.now })
+  created_at: string;
 
   @Prop()
-  updatedat: string;
+  updated_at: string;
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);

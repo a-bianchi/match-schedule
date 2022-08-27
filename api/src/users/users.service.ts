@@ -93,7 +93,9 @@ export class UsersService {
   }
 
   async getUserById(userId: string): Promise<Users | undefined> {
-    const queryUser = this.usersModel.findOne<Users>({ _id: userId }).exec();
+    const queryUser = this.usersModel
+      .findOne<Users>({ user_id: userId })
+      .exec();
     return await queryUser;
   }
 }

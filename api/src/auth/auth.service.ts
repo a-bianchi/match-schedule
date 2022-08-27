@@ -37,9 +37,9 @@ export class AuthService {
     const passswordMatches = await bycryptjs.compare(password, userDb.hash);
     if (!passswordMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(userDb.id, userDb.email);
+    const tokens = await this.getTokens(userDb.user_id, userDb.email);
 
-    await this.userService.updateRtUser(userDb.id, tokens.refresh_token);
+    await this.userService.updateRtUser(userDb.user_id, tokens.refresh_token);
 
     return tokens;
   }
@@ -48,7 +48,7 @@ export class AuthService {
     const user = await this.userService.getUserById(userId);
     if (!user) throw new ForbiddenException('Access Denied');
 
-    await this.userService.updateRtUser(user.id);
+    await this.userService.updateRtUser(user.user_id);
 
     return true;
   }
@@ -63,8 +63,8 @@ export class AuthService {
 
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(userDb.id, userDb.email);
-    await this.userService.updateRtUser(userDb.id, tokens.refresh_token);
+    const tokens = await this.getTokens(userDb.user_id, userDb.email);
+    await this.userService.updateRtUser(userDb.user_id, tokens.refresh_token);
 
     return tokens;
   }
