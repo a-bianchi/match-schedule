@@ -38,8 +38,6 @@ export class Matches {
     raw({
       user_id: { type: String },
       attend: { type: Boolean },
-      created_at: { type: String, default: Date.now },
-      updated_at: { type: String },
     }),
   ])
   headlines: Record<string, any>[];
@@ -48,8 +46,6 @@ export class Matches {
     raw({
       user_id: { type: String },
       available: { type: Boolean },
-      created_at: { type: String, default: Date.now },
-      updated_at: { type: String },
     }),
   ])
   substitutes: Record<string, any>[];

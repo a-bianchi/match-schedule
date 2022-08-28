@@ -121,13 +121,11 @@ export class MatchesResponseDto extends MatchesDto {
         _id: '5e9f8f8f8f8f8f8f8f8f8f8',
         user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
         attend: true,
-        created_at: '1661661670915',
       },
       {
         _id: '5e9f8f8f8f8f8f8f8f8f8f8',
         user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
         attend: true,
-        created_at: '1661661670915',
       },
     ],
   })
@@ -143,7 +141,6 @@ export class MatchesResponseDto extends MatchesDto {
         _id: '5e9f8f8f8f8f8f8f8f8f8f8',
         user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
         attend: true,
-        created_at: '1661661670915',
       },
     ],
   })
