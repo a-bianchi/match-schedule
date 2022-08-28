@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "8e879524-3691-48b5-a70a-6b1ddfeb0322",
+		"name": "Match",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22995382"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"alejobianchi@gmail.com.ar\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/auth/local/signup",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"auth",
+								"local",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"alejobianchi@gmail.com.ar\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/auth/local/signin",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"auth",
+								"local",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"alejobianchi@gmail.com.ar\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/auth/logout",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxODBkMWUwNi1hZTBlLTQ5MmQtOTkzZi0yOTE2MGJmYzRlYWEiLCJlbWFpbCI6ImFsZWpvYmlhbmNoaUBnbWFpbC5jb20uYXIiLCJpYXQiOjE2NjE2NDE4NzIsImV4cCI6MTY2MjI0NjY3Mn0.ZYgBtIhGlCZUNpG009CVaVNaqEzGGQ9DNrYmQSpTfCU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/auth/refresh",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{path}}/ping",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
