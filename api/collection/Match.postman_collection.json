@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8e879524-3691-48b5-a70a-6b1ddfeb0322",
+		"_postman_id": "b9d7994c-0b41-43ab-9c24-e294e3ec645c",
 		"name": "Match",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "22995382"
+		"_exporter_id": "4404886"
 	},
 	"item": [
 		{
@@ -11,6 +11,17 @@
 			"item": [
 				{
 					"name": "signup",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -41,6 +52,32 @@
 				},
 				{
 					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"console.info('Set bearer token in environment variable')",
+									"pm.environment.set('token', res.access_token);",
+									"",
+									"console.info('Set refresh token in environment variable')",
+									"pm.environment.set('refresh_token', res.refresh_token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -110,13 +147,27 @@
 				},
 				{
 					"name": "refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"",
+									"console.info('Set refresh token in environment variable')",
+									"pm.environment.set('refresh_token', res.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxODBkMWUwNi1hZTBlLTQ5MmQtOTkzZi0yOTE2MGJmYzRlYWEiLCJlbWFpbCI6ImFsZWpvYmlhbmNoaUBnbWFpbC5jb20uYXIiLCJpYXQiOjE2NjE2NDE4NzIsImV4cCI6MTY2MjI0NjY3Mn0.ZYgBtIhGlCZUNpG009CVaVNaqEzGGQ9DNrYmQSpTfCU",
+									"value": "{{refresh_token}}",
 									"type": "string"
 								}
 							]
@@ -150,6 +201,157 @@
 			]
 		},
 		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "Match",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/v1/api/matches/630aed5e03896a0ff5426475",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches",
+								"630aed5e03896a0ff5426475"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_user_id\": \"630ade6c3e291c63fd8f5e32\",\n  \"name\": \"Global Cup 2\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"substitutes\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"note\": \"All the best\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/matches",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_user_id\": \"630ade6c3e291c63fd8f5e32\",\n  \"name\": \"Global Cup 12345\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": false\n    }\n  ],\n  \"substitutes\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": false\n    }\n  ],\n  \"note\": \"Test update\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/matches/630af5d16bf818f2c7790954",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches",
+								"630af5d16bf818f2c7790954"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/matches/630aed5e03896a0ff5426475",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches",
+								"630aed5e03896a0ff5426475"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Ping",
 			"request": {
 				"method": "GET",
@@ -161,6 +363,23 @@
 					],
 					"path": [
 						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Docs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{path}}/docs",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"docs"
 					]
 				}
 			},
