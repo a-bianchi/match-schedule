@@ -28,10 +28,5 @@ export class CreateUserDto {
   @ApiProperty({
     example: 'User created at',
   })
-  readonly created_at: string;
-
-  @ApiProperty({
-    example: 'User updated at',
-  })
-  readonly updated_at: string;
+  readonly created_at: Date;
 }
