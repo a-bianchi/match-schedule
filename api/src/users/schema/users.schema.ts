@@ -7,6 +7,7 @@ export type UsersDocument = Users & Document;
 export class Users {
   @Prop({
     required: true,
+    index: true,
     unique: true,
   })
   user_id: string;
@@ -27,6 +28,9 @@ export class Users {
 
   @Prop({ default: true })
   isActive: boolean;
+
+  @Prop({ default: 3 })
+  available_matches: number;
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);

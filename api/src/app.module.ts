@@ -17,6 +17,9 @@ const configService = new ConfigService();
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       configService.get('MONGODB_URI') || `mongodb://localhost:27017/match`,
+      {
+        autoIndex: true,
+      },
     ),
     UsersModule,
     AuthModule,

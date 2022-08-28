@@ -12,6 +12,7 @@ export class Matches {
 
   @Prop({
     required: true,
+    index: true,
     unique: true,
   })
   name: string;

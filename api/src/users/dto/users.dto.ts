@@ -26,6 +26,11 @@ export class CreateUserDto {
   readonly isActive: boolean;
 
   @ApiProperty({
+    example: 'Available matches for user',
+  })
+  readonly available_matches: number;
+
+  @ApiProperty({
     example: 'User created at',
   })
   readonly created_at: Date;

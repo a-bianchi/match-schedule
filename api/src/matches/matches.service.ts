@@ -20,11 +20,26 @@ export class MatchesService {
     matchesDto: MatchesDto,
   ): Promise<MatchesCreateResponse | null> {
     try {
+      matchesDto.name = matchesDto.name.toLocaleLowerCase();
+
       const match = {
         ...matchesDto,
         admin_user_id: userId,
         password: Math.random().toString(36).substring(2, 8),
       };
+
+      const queryMatch = await this.matchesModel
+        .findOne({ name: matchesDto.name })
+        .exec();
+
+      if (queryMatch)
+        throw new InternalServerErrorException('Match already exists');
+
+      if (matchesDto.headlines.length > matchesDto.max_headlines)
+        throw new InternalServerErrorException('Too many headlines');
+
+      if (matchesDto.substitutes.length > matchesDto.max_substitutes)
+        throw new InternalServerErrorException('Too many substitutes');
 
       const newMatch = await this.matchesModel.create(match);
 
