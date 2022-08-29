@@ -10,7 +10,7 @@
 <h3 align="center">Match Schedule</h3>
 
   <p align="center">
-    project_description
+    App to organize matches and notify changes
     <br />
     <a href="https://github.com/a-bianchi/match-schedule"><strong>Explore the docs »</strong></a>
     <br />
