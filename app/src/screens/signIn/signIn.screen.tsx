@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { UserContext } from '../../context';
 
 function Copyright(props: any) {
   return (
@@ -33,6 +34,13 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export const SignIn = () => {
+  const { getResponse } = React.useContext(UserContext);
+
+  React.useEffect(() => {
+    getResponse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

@@ -66,7 +66,7 @@ export class Api {
 
     // transform the data into the format we are expecting
     try {
-      return { kind: 'ok', response: response.data.results };
+      return { kind: 'ok', response: response.data };
     } catch {
       return { kind: 'bad-data' };
     }
