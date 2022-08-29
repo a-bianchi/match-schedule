@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import { theme } from './theme';
 import { SignIn } from './screens';
+import { AppState } from './context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,8 +15,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
-      <CssBaseline />
-      <SignIn />
+      <AppState>
+        <CssBaseline />
+        <SignIn />
+      </AppState>
     </React.StrictMode>
   </ThemeProvider>,
 );
