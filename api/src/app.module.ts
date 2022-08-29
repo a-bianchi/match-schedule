@@ -9,6 +9,7 @@ import { PingController } from './ping.controller';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MatchesModule } from './matches/matches.module';
+import { InvitationsModule } from './invitations/invitations.module';
 
 const configService = new ConfigService();
 
@@ -24,6 +25,7 @@ const configService = new ConfigService();
     UsersModule,
     AuthModule,
     MatchesModule,
+    InvitationsModule,
   ],
   controllers: [PingController],
   providers: [

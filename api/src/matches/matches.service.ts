@@ -22,8 +22,6 @@ export class MatchesService {
     try {
       matchesDto.name = matchesDto.name.toLocaleLowerCase();
 
-      // TODO: for relation invite password: Math.random().toString(36).substring(2, 8),
-
       const queryMatch = await this.matchesModel
         .findOne({ name: matchesDto.name })
         .exec();
