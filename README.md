@@ -88,6 +88,14 @@ To get a local copy up and running follow these simple example steps.
    
 #### Frontend
 
+1. Install NPM packages
+   ```sh
+   yarn install
+   ```
+2. Up app in docker
+   ```sh
+   yarn start:dev:clean:solution
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
