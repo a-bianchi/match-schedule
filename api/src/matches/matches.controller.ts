@@ -44,6 +44,21 @@ export class MatchesController {
     return this.matchesService.getMatchById(id);
   }
 
+  @ApiOkResponse({
+    description: '200',
+    type: [MatchesResponseDto],
+  })
+  @ApiForbiddenResponse({
+    description: '403 Forbidden',
+    type: ErrorMatchesDto,
+  })
+  @UseGuards(AtGuard)
+  @Get('')
+  @HttpCode(HttpStatus.OK)
+  getAllMatches(@GetCurrentUserId() userId: string): Promise<Matches[]> {
+    return this.matchesService.getMatchesByUserId(userId);
+  }
+
   @ApiCreatedResponse({
     description: '201 Created',
     type: MatchesResponseDto,

@@ -53,11 +53,6 @@ export class Matches {
 
   @Prop()
   note: string;
-
-  @Prop({
-    required: true,
-  })
-  password: string;
 }
 
 export const MatchesSchema = SchemaFactory.createForClass(Matches);

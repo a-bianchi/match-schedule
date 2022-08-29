@@ -22,11 +22,7 @@ export class MatchesService {
     try {
       matchesDto.name = matchesDto.name.toLocaleLowerCase();
 
-      const match = {
-        ...matchesDto,
-        admin_user_id: userId,
-        password: Math.random().toString(36).substring(2, 8),
-      };
+      // TODO: for relation invite password: Math.random().toString(36).substring(2, 8),
 
       const queryMatch = await this.matchesModel
         .findOne({ name: matchesDto.name })
@@ -41,7 +37,10 @@ export class MatchesService {
       if (matchesDto.substitutes.length > matchesDto.max_substitutes)
         throw new InternalServerErrorException('Too many substitutes');
 
-      const newMatch = await this.matchesModel.create(match);
+      const newMatch = await this.matchesModel.create({
+        ...matchesDto,
+        admin_user_id: userId,
+      });
 
       return newMatch;
     } catch (error) {
@@ -82,9 +81,9 @@ export class MatchesService {
     }
   }
 
-  async getMatchByUserId(userId: string): Promise<Matches> {
+  async getMatchesByUserId(userId: string): Promise<Matches[]> {
     try {
-      return await this.matchesModel.findById({ userId }).exec();
+      return await this.matchesModel.find({ admin_user_id: userId }).exec();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

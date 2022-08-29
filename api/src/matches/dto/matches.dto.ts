@@ -149,15 +149,6 @@ export class MatchesResponseDto extends MatchesDto {
   substitutes: PlayersResponseDto[];
 
   @ApiProperty({
-    type: String,
-    description: 'Match password',
-    default: '123456',
-  })
-  @IsOptional()
-  @IsString()
-  password: string;
-
-  @ApiProperty({
     type: Date,
     description: 'Created at',
     default: '1661661670915',
