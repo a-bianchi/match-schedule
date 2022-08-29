@@ -234,6 +234,35 @@
 					"response": []
 				},
 				{
+					"name": "Matches",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/v1/api/matches",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create",
 					"request": {
 						"auth": {
@@ -250,7 +279,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"admin_user_id\": \"630ade6c3e291c63fd8f5e32\",\n  \"name\": \"Global Cup 2\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"substitutes\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"note\": \"All the best\"\n}",
+							"raw": "{\n  \"name\": \"Global Cup 2\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"substitutes\": [],\n  \"note\": \"All the best\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -335,7 +364,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{path}}/v1/api/matches/630aed5e03896a0ff5426475",
+							"raw": "{{path}}/v1/api/matches/630c14a7477d5ab19407b771",
 							"host": [
 								"{{path}}"
 							],
@@ -343,7 +372,186 @@
 								"v1",
 								"api",
 								"matches",
-								"630aed5e03896a0ff5426475"
+								"630c14a7477d5ab19407b771"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invitations",
+			"item": [
+				{
+					"name": "Initations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/v1/api/invitations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"invitations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"630aed5e03896a0ff5426475\",\n    \"match_id\": \"630aed5e03896a0ff5426475\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/invitations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"invitations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"630aed5e03896a0ff5426475\",\n    \"match_id\": \"630aed5e03896a0ff5426475\",\n    \"accepted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/invitations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"invitations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"c80f9030-c6ab-4a12-8214-1b5d03ecc079\",\n  \"match_id\": \"630af7ccd3135865877a6d25\",\n  \"short_url\": \"http://localhost:3000/invitations/\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/invitations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"invitations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Initations by match id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/v1/api/invitations/matches/630af7ccd3135865877a6d25",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"invitations",
+								"matches",
+								"630af7ccd3135865877a6d25"
 							]
 						}
 					},
