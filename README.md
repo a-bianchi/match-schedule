@@ -85,6 +85,7 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    yarn start:dev:clean:solution
    ```
+6. Go to "http://localhost:3000/docs" to view swagger documentation 
    
 #### Frontend
 
@@ -96,6 +97,7 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    yarn start:dev:clean:solution
    ```
+3. Go to "http://localhost:3001/" to view web home.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
