@@ -24,6 +24,9 @@ RUN yarn install --prod
 
 COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/build ./build
 
-CMD ["node", "dist/api/main"]
+CMD ["yarn", "start"]
+
+
+
