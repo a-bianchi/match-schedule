@@ -1,4 +1,3 @@
-start_up_backend: 
-	echo 'TODO: start up backend';
+.PHONY: start
 
-.PHONY: start_up_backend
+start: cd api; yarn start:dev:clean:solution
