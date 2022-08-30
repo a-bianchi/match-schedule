@@ -8,6 +8,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme';
 import { SignIn } from './screens';
 import { AppState } from './context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Config } from './config';
+
+// Create a client
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -16,8 +23,13 @@ root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
       <AppState>
-        <CssBaseline />
-        <SignIn />
+        <QueryClientProvider client={queryClient}>
+          <CssBaseline />
+          <SignIn />
+          <ReactQueryDevtools
+            initialIsOpen={Config.environment === 'development' ? true : false}
+          />
+        </QueryClientProvider>
       </AppState>
     </React.StrictMode>
   </ThemeProvider>,
