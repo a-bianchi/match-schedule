@@ -1,5 +1,2 @@
-import { Api } from './api.request';
-
-const api = new Api();
-
-export default api;
+export * from './api.request';
+export * from './api.types';

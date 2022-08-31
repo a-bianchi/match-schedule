@@ -1,5 +1,9 @@
-import { GeneralApiProblem } from './api.problem';
+export interface UserBody {
+  email: string;
+  password: string;
+}
 
-export type GetApiPingResult =
-  | { kind: 'ok'; response: string }
-  | GeneralApiProblem;
+export interface SigninResponse {
+  access_token: string;
+  refresh_token: string;
+}

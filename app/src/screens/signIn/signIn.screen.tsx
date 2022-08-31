@@ -12,7 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { UserContext } from '../../context';
+
+import { useMutation } from '@tanstack/react-query';
+
+import { signIn } from '../../services/api';
 
 function Copyright(props: any) {
   return (
@@ -34,19 +37,31 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export const SignIn = () => {
-  const { getResponse } = React.useContext(UserContext);
+  const { isLoading, isError, error, mutate, data } = useMutation(signIn);
 
-  React.useEffect(() => {
-    getResponse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const newError = error as any;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error! {newError.message}</div>;
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const item = new FormData(event.currentTarget);
+    const email = item.get('email')?.toString() || '';
+    const password = item.get('password')?.toString() || '';
+    if (email && password)
+      mutate({
+        email,
+        password,
+      });
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: item.get('email'),
+      password: item.get('password'),
     });
   };
 
@@ -118,6 +133,7 @@ export const SignIn = () => {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
+        {data ? <div>{JSON.stringify(data)}</div> : null}
       </Container>
     </ThemeProvider>
   );
