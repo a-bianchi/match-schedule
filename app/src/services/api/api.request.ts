@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SigninResponse, UserBody } from './api.types';
+import { SigninResponse, UserBody } from '../../interfaces/auth.interface';
 import { Config } from '../../config';
 
 const axiosInstance = axios.create({

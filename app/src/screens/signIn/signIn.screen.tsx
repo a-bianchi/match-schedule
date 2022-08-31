@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useMutation } from '@tanstack/react-query';
 
 import { signIn } from '../../services/api';
+import { AuthContext } from '../../context/auth.context';
 
 function Copyright(props: any) {
   return (
@@ -37,7 +38,10 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export const SignIn = () => {
-  const { isLoading, isError, error, mutate, data } = useMutation(signIn);
+  const { isLoading, isSuccess, isError, error, mutate, data } =
+    useMutation(signIn);
+
+  const { login } = React.useContext(AuthContext);
 
   const newError = error as any;
 
@@ -47,6 +51,12 @@ export const SignIn = () => {
 
   if (isError) {
     return <div>Error! {newError.message}</div>;
+  }
+
+  if (isSuccess) {
+    if (data.access_token) {
+      login(data);
+    }
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
