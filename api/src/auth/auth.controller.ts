@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -10,6 +12,7 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiForbiddenResponse,
+  ApiOkResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
@@ -23,6 +26,7 @@ import {
 } from './dto';
 import { AtGuard, RtGuard } from '../common/guards';
 import { GetCurrentUserId, GetCurrentUser, Public } from '../common/decorators';
+import { InvitationsResponseDto } from 'src/invitations/dto';
 
 @Controller('api/auth')
 export class AuthController {
@@ -74,5 +78,19 @@ export class AuthController {
     @GetCurrentUser('refreshToken') refreshToken: string,
   ): Promise<TokenDtoResponse> {
     return this.authService.refreshTokens(userId, refreshToken);
+  }
+
+  @ApiOkResponse({
+    description: '200',
+    type: Boolean,
+  })
+  @Public()
+  @Get('local/verify/:userId/:confirmPassword')
+  @HttpCode(HttpStatus.OK)
+  verify(
+    @Param('userId') userId: string,
+    @Param('confirmPassword') confirmPassword: string,
+  ): Promise<boolean> {
+    return this.authService.verify(userId, confirmPassword);
   }
 }
