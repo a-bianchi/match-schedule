@@ -54,8 +54,8 @@ export class MatchesController {
   @UseGuards(AtGuard)
   @Get('')
   @HttpCode(HttpStatus.OK)
-  getAllMatches(@GetCurrentUserId() userId: string): Promise<Matches[]> {
-    return this.matchesService.getMatchesByUserId(userId);
+  getAllMatches(@GetCurrentUserId() user_id: string): Promise<Matches[]> {
+    return this.matchesService.getMatchesByUserId(user_id);
   }
 
   @ApiCreatedResponse({
@@ -70,10 +70,10 @@ export class MatchesController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   create(
-    @GetCurrentUserId() userId: string,
+    @GetCurrentUserId() user_id: string,
     @Body() matchesDto: MatchesDto,
   ): Promise<Matches> {
-    return this.matchesService.createMatch(userId, matchesDto);
+    return this.matchesService.createMatch(matchesDto, user_id);
   }
 
   @ApiOkResponse({

@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { MatchesModule } from './matches/matches.module';
 import { InvitationsModule } from './invitations/invitations.module';
 import { MailModule } from './mail/mail.module';
+import { MatchesPublicModule } from './matches-public/matches-public.module';
 
 const configService = new ConfigService();
 
@@ -28,6 +29,7 @@ const configService = new ConfigService();
     MatchesModule,
     InvitationsModule,
     MailModule,
+    MatchesPublicModule,
   ],
   controllers: [PingController],
   providers: [

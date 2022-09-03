@@ -9,6 +9,7 @@ import { Tokens } from 'src/auth/types';
 
 import { InjectModel } from '@nestjs/mongoose';
 import { MailService } from 'src/mail/mail.service';
+import { getRandomPassword } from 'src/utils';
 
 interface UserCreateResponse extends Users, Tokens {}
 
@@ -34,9 +35,7 @@ export class UsersService {
       const hash = await bycryptjs.hash(password, 10);
       const tokens = await this.getTokens(userId, email);
       const hashrt = await bycryptjs.hash(tokens.refresh_token, 10);
-      const confirm_password = Math.floor(
-        1000 + Math.random() * 9000,
-      ).toString();
+      const confirm_password = getRandomPassword();
 
       const newUser = await this.usersModel.create({
         user_id: userId,
@@ -47,6 +46,7 @@ export class UsersService {
         created_at: new Date().toISOString(),
       });
 
+      // TODO: servisar el envio de email
       await this.mailService.sendUserConfirmation(
         confirm_password,
         email,

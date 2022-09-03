@@ -5,9 +5,9 @@ import {
   IsString,
   IsOptional,
   IsBoolean,
-  IsObject,
   IsMongoId,
   IsDate,
+  IsArray,
 } from 'class-validator';
 
 export class MatchesDto {
@@ -41,48 +41,27 @@ export class MatchesDto {
   })
   @IsNotEmpty()
   @IsNumber()
-  max_headlines: number;
-
-  @ApiProperty({
-    type: Number,
-    description: 'Substitutes limit',
-    default: '0',
-  })
-  @IsOptional()
-  @IsNumber()
-  max_substitutes: number;
+  maxHeadlines: number;
 
   @ApiProperty({
     type: Object,
     description: 'Headlines players',
     default: [
       {
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        attend: true,
+        name: 'John Doe',
+        phone: 3001234567,
+        attend: false,
       },
       {
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
+        name: 'Jane Doe',
+        phone: 3001234567,
         attend: true,
       },
     ],
   })
   @IsNotEmpty()
-  @IsObject()
+  @IsArray()
   headlines: PlayersDto[];
-
-  @ApiProperty({
-    type: Object,
-    description: 'Substitutes players',
-    default: [
-      {
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        attend: true,
-      },
-    ],
-  })
-  @IsOptional()
-  @IsObject()
-  substitutes: PlayersDto[];
 
   @ApiProperty({
     type: String,
@@ -111,42 +90,27 @@ export class MatchesResponseDto extends MatchesDto {
   })
   @IsNotEmpty()
   @IsMongoId()
-  admin_user_id: string;
+  user_id: string;
 
   @ApiProperty({
     type: Object,
     description: 'Headlines players',
     default: [
       {
-        _id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
+        name: 'John Doe',
+        phone: 3001234567,
         attend: true,
       },
       {
-        _id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
+        name: 'John Doe',
+        phone: 3001234567,
         attend: true,
       },
     ],
   })
   @IsNotEmpty()
-  @IsObject()
-  headlines: PlayersResponseDto[];
-
-  @ApiProperty({
-    type: Object,
-    description: 'Substitutes players',
-    default: [
-      {
-        _id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        user_id: '5e9f8f8f8f8f8f8f8f8f8f8',
-        attend: true,
-      },
-    ],
-  })
-  @IsOptional()
-  @IsObject()
-  substitutes: PlayersResponseDto[];
+  @IsArray()
+  headlines: PlayersDto[];
 
   @ApiProperty({
     type: Date,
@@ -159,44 +123,6 @@ export class MatchesResponseDto extends MatchesDto {
 }
 export class PlayersDto {
   @ApiProperty({
-    type: String,
-    description: 'User id',
-    default: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
-  })
-  @IsNotEmpty()
-  @IsMongoId()
-  user_id: string;
-
-  @ApiProperty({
-    type: Boolean,
-    description: 'User attended',
-    default: 'false',
-  })
-  @IsOptional()
-  @IsBoolean()
-  attend: boolean;
-}
-
-export class PlayersResponseDto {
-  @ApiProperty({
-    type: String,
-    description: 'id',
-    default: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
-  })
-  @IsNotEmpty()
-  @IsMongoId()
-  _id: string;
-
-  @ApiProperty({
-    type: String,
-    description: 'User id',
-    default: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
-  })
-  @IsNotEmpty()
-  @IsMongoId()
-  user_id: string;
-
-  @ApiProperty({
     type: Boolean,
     description: 'User attended',
     default: 'false',
@@ -206,14 +132,24 @@ export class PlayersResponseDto {
   attend: boolean;
 
   @ApiProperty({
-    type: Date,
-    description: 'Created at',
-    default: '1661661670915',
+    type: String,
+    description: 'Name of the player',
+    default: 'John Doe',
   })
   @IsOptional()
-  @IsDate()
-  created_at: Date;
+  @IsString()
+  name: string;
+
+  @ApiProperty({
+    type: String,
+    description: 'Phone of the player',
+    default: 3001234567,
+  })
+  @IsOptional()
+  @IsNumber()
+  phone: number;
 }
+
 export class ErrorMatchesDto {
   @IsNumber()
   @ApiProperty({ type: Number, description: 'statusCode', default: 403 })

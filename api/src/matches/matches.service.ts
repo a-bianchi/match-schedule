@@ -16,28 +16,16 @@ export class MatchesService {
   ) {}
 
   async createMatch(
-    userId: string,
     matchesDto: MatchesDto,
+    user_id?: string,
   ): Promise<MatchesCreateResponse | null> {
     try {
-      matchesDto.name = matchesDto.name.toLocaleLowerCase();
-
-      const queryMatch = await this.matchesModel
-        .findOne({ name: matchesDto.name })
-        .exec();
-
-      if (queryMatch)
-        throw new InternalServerErrorException('Match already exists');
-
-      if (matchesDto.headlines.length > matchesDto.max_headlines)
+      if (matchesDto.headlines.length > matchesDto.maxHeadlines)
         throw new InternalServerErrorException('Too many headlines');
-
-      if (matchesDto.substitutes.length > matchesDto.max_substitutes)
-        throw new InternalServerErrorException('Too many substitutes');
 
       const newMatch = await this.matchesModel.create({
         ...matchesDto,
-        admin_user_id: userId,
+        user_id,
       });
 
       return newMatch;
@@ -71,17 +59,17 @@ export class MatchesService {
     }
   }
 
-  async getMatchById(id: string): Promise<Matches> {
+  async getMatchById(_id: string): Promise<Matches> {
     try {
-      return await this.matchesModel.findById({ _id: id }).exec();
+      return await this.matchesModel.findById({ _id }).exec();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async getMatchesByUserId(userId: string): Promise<Matches[]> {
+  async getMatchesByUserId(user_id: string): Promise<Matches[]> {
     try {
-      return await this.matchesModel.find({ admin_user_id: userId }).exec();
+      return await this.matchesModel.find({ user_id }).exec();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
