@@ -4,9 +4,11 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { Users, UsersSchema } from './schema';
 import { JwtModule } from '@nestjs/jwt';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
+    MailModule,
     JwtModule.register({}),
     MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
   ],

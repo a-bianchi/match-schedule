@@ -1,5 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -49,6 +50,18 @@ export class AuthService {
     if (!user) throw new ForbiddenException('Access Denied');
 
     await this.userService.updateRtUser(user.user_id);
+
+    return true;
+  }
+
+  async verify(user_id: string, confirm_password: string): Promise<boolean> {
+    const user = await this.userService.getUserByConfirmPassword(
+      user_id,
+      confirm_password,
+    );
+    if (!user) throw new BadRequestException('Invalid link');
+
+    await this.userService.activeUser(user.user_id);
 
     return true;
   }
