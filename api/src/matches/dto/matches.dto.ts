@@ -129,14 +129,14 @@ export class PlayersDto {
   })
   @IsOptional()
   @IsBoolean()
-  attend: boolean;
+  attend?: boolean;
 
   @ApiProperty({
     type: String,
     description: 'Name of the player',
     default: 'John Doe',
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
 
@@ -147,7 +147,7 @@ export class PlayersDto {
   })
   @IsOptional()
   @IsNumber()
-  phone: number;
+  phone?: number;
 }
 
 export class ErrorMatchesDto {

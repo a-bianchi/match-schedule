@@ -3,6 +3,12 @@ import { Document } from 'mongoose';
 
 export type MatchesDocument = Matches & Document;
 
+export type Players = {
+  name: string;
+  phone?: number;
+  attend?: boolean;
+};
+
 @Schema({ timestamps: true })
 export class Matches {
   @Prop()
@@ -10,8 +16,6 @@ export class Matches {
 
   @Prop({
     required: true,
-    index: true,
-    unique: true,
   })
   name: string;
 
@@ -37,13 +41,19 @@ export class Matches {
       attend: { type: Boolean, required: true, default: false },
     }),
   ])
-  headlines: Record<string, any>[];
+  headlines: Players[];
 
   @Prop()
   note: string;
 
   @Prop()
   security_code: string;
+
+  @Prop()
+  created_at: Date;
+
+  @Prop()
+  update_at: Date;
 }
 
 export const MatchesSchema = SchemaFactory.createForClass(Matches);

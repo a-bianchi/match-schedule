@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { Matches, MatchesDocument } from '../matches/schema';
 import { getRandomPassword } from 'src/utils';
 import { MatchesDto } from 'src/matches/dto';
-import { MatchesPublicDto } from './dto';
+import { MatchesPublicDto, MatchesPublicResponseDto } from './dto';
 
 type MatchesPublicCreateResponse = Matches;
 
@@ -26,7 +26,7 @@ export class MatchesPublicService {
 
       const newMatchPublic = await this.matchesModel.create({
         ...matchesDto,
-        password: getRandomPassword(),
+        security_code: getRandomPassword(),
       });
 
       return newMatchPublic;
@@ -60,9 +60,11 @@ export class MatchesPublicService {
     }
   }
 
-  async getMatchById(_id: string): Promise<Matches> {
+  async getMatchById(_id: string): Promise<MatchesPublicResponseDto> {
     try {
-      return await this.matchesModel.findById({ _id }).exec();
+      const match = await this.matchesModel.findById({ _id }).exec();
+      delete match.security_code;
+      return match;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

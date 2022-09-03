@@ -1,6 +1,12 @@
 import axios from 'axios';
-import { SigninResponse, UserBody } from '../../interfaces/auth.interface';
+
 import { Config } from '../../config';
+import {
+  SigninResponse,
+  UserBody,
+  MatchPublicResponse,
+  MatchPublic,
+} from '../../interfaces';
 
 const axiosInstance = axios.create({
   baseURL: `${Config.api.url}/v1/api`,
@@ -22,7 +28,6 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    console.log(error);
     const errMessage = error?.response?.data?.message as string;
     if (errMessage.includes('not logged in') && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -51,5 +56,35 @@ export const signUp = async (body: UserBody): Promise<SigninResponse> => {
 
 export const logout = async (body: UserBody): Promise<boolean> => {
   const { data } = await axiosInstance.post<boolean>(`auth/local/logout`, body);
+  return data;
+};
+
+export const createMatchPublic = async (
+  body: MatchPublic,
+): Promise<MatchPublicResponse> => {
+  const { data } = await axiosInstance.post<MatchPublicResponse>(
+    `matches-public`,
+    body,
+  );
+  return data;
+};
+
+export const updateMatchPublic = async (
+  body: MatchPublic,
+): Promise<MatchPublicResponse> => {
+  const { data } = await axiosInstance.patch<MatchPublicResponse>(
+    `matches-public`,
+    body,
+  );
+  return data;
+};
+
+export const getMatchPublicById = async (
+  id: string | undefined,
+): Promise<MatchPublicResponse> => {
+  if (!id) return Promise.reject('id is undefined');
+  const { data } = await axiosInstance.get<MatchPublicResponse>(
+    `matches-public/${id}`,
+  );
   return data;
 };

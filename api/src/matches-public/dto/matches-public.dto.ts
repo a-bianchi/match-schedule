@@ -19,7 +19,7 @@ export class MatchesPublicDto extends MatchesDto {
   security_code: string;
 }
 
-export class MatchesPublicResponseDto extends MatchesDto {
+export class MatchesPublicCreateResponseDto extends MatchesDto {
   @ApiProperty({
     type: String,
     description: 'Id of the match',
@@ -37,6 +37,35 @@ export class MatchesPublicResponseDto extends MatchesDto {
   @IsNotEmpty()
   @IsString()
   security_code: string;
+
+  @ApiProperty({
+    type: Date,
+    description: 'Created at',
+    default: '1661661670915',
+  })
+  @IsOptional()
+  @IsDate()
+  created_at: Date;
+
+  @ApiProperty({
+    type: Date,
+    description: 'Update at',
+    default: '1661661670915',
+  })
+  @IsOptional()
+  @IsDate()
+  update_at: Date;
+}
+
+export class MatchesPublicResponseDto extends MatchesDto {
+  @ApiProperty({
+    type: String,
+    description: 'Id of the match',
+    default: '630aeeb06997b40d6907c6c0',
+  })
+  @IsNotEmpty()
+  @IsMongoId()
+  _id: string;
 
   @ApiProperty({
     type: Date,
