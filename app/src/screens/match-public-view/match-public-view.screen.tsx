@@ -1,22 +1,22 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import { useQuery } from '@tanstack/react-query';
 
 import { getMatchPublicById } from '../../services/api';
 
-import { Link as LinkRouter, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Avatar,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 
 export const MatchPublicView = () => {
   let { id } = useParams();
@@ -24,6 +24,8 @@ export const MatchPublicView = () => {
   const { isLoading, isError, error, data } = useQuery([id], () =>
     getMatchPublicById(id),
   );
+
+  const navigate = useNavigate();
 
   const newError = error as any;
 
@@ -45,7 +47,70 @@ export const MatchPublicView = () => {
           flexDirection: 'column',
           alignItems: 'center',
         }}>
-        {data ? <div>{JSON.stringify(data)}</div> : null}
+        <div>
+          <p>
+            <Button
+              variant="contained"
+              onClick={() => console.log('Hace tu magia rey!')}>
+              Armar Equipos
+            </Button>{' '}
+            <Button
+              variant="contained"
+              onClick={() => navigate(`/match/update/${data._id}`)}>
+              Modificar
+            </Button>
+          </p>
+        </div>
+        {data ? (
+          <>
+            <h1>{data.name}</h1>
+            <p>Direccion: {data.address}</p>
+            <p>Horario: {data.time}</p>
+            <p>{data.note}</p>
+            <List
+              sx={{
+                width: '100%',
+                maxWidth: 360,
+                bgcolor: 'background.paper',
+              }}>
+              {data.headlines.map((headline, index) => {
+                return (
+                  <ListItem
+                    key={`${index}-${headline.name}`}
+                    alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar
+                        alt={headline.name}
+                        src="/static/images/avatar/1.jpg"
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={headline.name}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary">
+                            {headline.attend
+                              ? ' Asistirá - '
+                              : ' No asistirá - '}
+                            {`Telefono: ${
+                              headline.phone
+                                ? headline.phone
+                                : 'No especificado'
+                            }`}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </>
+        ) : null}
       </Box>
     </Container>
   );

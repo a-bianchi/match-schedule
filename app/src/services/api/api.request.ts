@@ -6,6 +6,7 @@ import {
   UserBody,
   MatchPublicResponse,
   MatchPublic,
+  MatchPublicUpdate,
 } from '../../interfaces';
 
 const axiosInstance = axios.create({
@@ -70,13 +71,14 @@ export const createMatchPublic = async (
 };
 
 export const updateMatchPublic = async (
-  body: MatchPublic,
+  body: MatchPublicUpdate,
 ): Promise<MatchPublicResponse> => {
-  const { data } = await axiosInstance.patch<MatchPublicResponse>(
-    `matches-public`,
+  const response = await axiosInstance.patch<MatchPublicResponse>(
+    `matches-public/${body.id}`,
     body,
   );
-  return data;
+  console.log('response', response);
+  return response.data;
 };
 
 export const getMatchPublicById = async (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Match } from './match.screen';
+import { MatchPublicUpdate } from './match-public-update.screen';
 
 test('renders learn react link', () => {
-  render(<Match />);
+  render(<MatchPublicUpdate />);
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
 });
