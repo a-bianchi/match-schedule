@@ -9,17 +9,40 @@ import Container from '@mui/material/Container';
 import { useMutation } from '@tanstack/react-query';
 
 import { createMatchPublic } from '../../services/api';
-import { Alert, Link } from '@mui/material';
+import { Alert, CircularProgress, Link } from '@mui/material';
 
 export const MatchPublicCreate = () => {
   const { isLoading, isSuccess, isError, error, mutate, data } =
     useMutation(createMatchPublic);
 
+  const [players, setPlayers] = React.useState(['']);
+
   const newError = error as any;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const playerFields = (index: number) => {
+    return (
+      <>
+        <div key={`${index}-player`}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="playerName"
+            label="Nombre"
+            id="playerName"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="phone"
+            label="Telefono"
+            id="phone"
+          />
+        </div>
+      </>
+    );
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,6 +69,7 @@ export const MatchPublicCreate = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      {isLoading ? <CircularProgress /> : null}
       <Box
         sx={{
           marginTop: 8,
@@ -111,6 +135,14 @@ export const MatchPublicCreate = () => {
             label="Nota"
             id="note"
           />
+          <Button
+            onClick={() => setPlayers([...players, ''])}
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}>
+            Agregar Jugador +
+          </Button>
+          {players.map((player, index) => playerFields(index))}
           <Button
             type="submit"
             fullWidth

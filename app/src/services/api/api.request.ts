@@ -77,7 +77,7 @@ export const updateMatchPublic = async (
     `matches-public/${body.id}`,
     body,
   );
-  console.log('response', response);
+
   return response.data;
 };
 
