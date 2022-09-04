@@ -28,7 +28,9 @@ export class MatchesPublicController {
   @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  getMatchById(@Param('id', ValidateMongoId) id: string): Promise<Matches> {
+  getMatchById(
+    @Param('id', ValidateMongoId) id: string,
+  ): Promise<MatchesPublicResponseDto> {
     return this.matchesPublicService.getMatchById(id);
   }
 
