@@ -1,74 +1,92 @@
-import { ApisauceInstance, create, ApiResponse } from 'apisauce';
-import { getGeneralApiProblem } from './api.problem';
-import { ApiConfig, DEFAULT_API_CONFIG } from './api.config';
-import * as Types from './api.types';
+import axios from 'axios';
 
-/**
- * Manages all requests to the API.
- */
-export class Api {
-  /**
-   * The underlying apisauce instance which performs the requests.
-   */
-  apisauce!: ApisauceInstance;
+import { Config } from '../../config';
+import {
+  SigninResponse,
+  UserBody,
+  MatchPublicResponse,
+  MatchPublic,
+  MatchPublicUpdate,
+} from '../../interfaces';
 
-  /**
-   * Configurable options.
-   */
-  config: ApiConfig;
+const axiosInstance = axios.create({
+  baseURL: `${Config.api.url}/v1/api`,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  withCredentials: false,
+});
 
-  /**
-   * Creates the api.
-   *
-   * @param config The configuration to use.
-   */
-  constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
-    this.config = config;
-  }
+export const refreshAccessTokenFn = async () => {
+  const { data } = await axiosInstance.post('auth/refresh');
+  return data;
+};
 
-  /**
-   * Sets up the API.  This will be called during the bootup
-   * sequence and will happen before the first React component
-   * is mounted.
-   *
-   * Be as quick as possible in here.
-   */
-  init = () => {
-    // construct the apisauce instance
-    if (!this.apisauce) {
-      this.apisauce = create({
-        baseURL: this.config.url,
-        timeout: this.config.timeout,
-        headers: {
-          Accept: 'application/json',
-          //Authorization: ,
-        },
-      });
+axiosInstance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async error => {
+    const originalRequest = error.config;
+    const errMessage = error?.response?.data?.message as string;
+    if (errMessage.includes('not logged in') && !originalRequest._retry) {
+      originalRequest._retry = true;
+      await refreshAccessTokenFn();
+      return axiosInstance(originalRequest);
     }
+    return Promise.reject(error);
+  },
+);
 
-    return this.apisauce;
-  };
+export const signIn = async (body: UserBody): Promise<SigninResponse> => {
+  const { data } = await axiosInstance.post<SigninResponse>(
+    `auth/local/signin`,
+    body,
+  );
+  return data;
+};
 
-  /**
-   * Gets Match api ping.
-   */
-  async getPing(): Promise<Types.GetApiPingResult> {
-    // make the api call
-    const response: ApiResponse<any> = await this.init().get('ping');
+export const signUp = async (body: UserBody): Promise<SigninResponse> => {
+  const { data } = await axiosInstance.post<SigninResponse>(
+    `auth/local/signup`,
+    body,
+  );
+  return data;
+};
 
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response);
-      if (problem) {
-        return problem;
-      }
-    }
+export const logout = async (body: UserBody): Promise<boolean> => {
+  const { data } = await axiosInstance.post<boolean>(`auth/local/logout`, body);
+  return data;
+};
 
-    // transform the data into the format we are expecting
-    try {
-      return { kind: 'ok', response: response.data };
-    } catch {
-      return { kind: 'bad-data' };
-    }
-  }
-}
+export const createMatchPublic = async (
+  body: MatchPublic,
+): Promise<MatchPublicResponse> => {
+  const { data } = await axiosInstance.post<MatchPublicResponse>(
+    `matches-public`,
+    body,
+  );
+  return data;
+};
+
+export const updateMatchPublic = async (
+  body: MatchPublicUpdate,
+): Promise<MatchPublicResponse> => {
+  const response = await axiosInstance.patch<MatchPublicResponse>(
+    `matches-public/${body.id}`,
+    body,
+  );
+
+  return response.data;
+};
+
+export const getMatchPublicById = async (
+  id: string | undefined,
+): Promise<MatchPublicResponse> => {
+  if (!id) return Promise.reject('id is undefined');
+  const { data } = await axiosInstance.get<MatchPublicResponse>(
+    `matches-public/${id}`,
+  );
+  return data;
+};

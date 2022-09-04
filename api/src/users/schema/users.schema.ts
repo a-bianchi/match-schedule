@@ -26,8 +26,11 @@ export class Users {
   @Prop()
   hashrt: string;
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   isActive: boolean;
+
+  @Prop()
+  confirm_password: string;
 
   @Prop({ default: 3 })
   available_matches: number;

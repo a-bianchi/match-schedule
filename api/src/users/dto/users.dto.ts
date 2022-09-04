@@ -26,6 +26,11 @@ export class CreateUserDto {
   readonly isActive: boolean;
 
   @ApiProperty({
+    example: 'Confirm password',
+  })
+  readonly confirm_password: string;
+
+  @ApiProperty({
     example: 'Available matches for user',
   })
   readonly available_matches: number;

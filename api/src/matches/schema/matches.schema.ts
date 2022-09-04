@@ -3,17 +3,19 @@ import { Document } from 'mongoose';
 
 export type MatchesDocument = Matches & Document;
 
+export type Players = {
+  name: string;
+  phone?: number;
+  attend?: boolean;
+};
+
 @Schema({ timestamps: true })
 export class Matches {
-  @Prop({
-    required: true,
-  })
-  admin_user_id: string;
+  @Prop()
+  user_id: string;
 
   @Prop({
     required: true,
-    index: true,
-    unique: true,
   })
   name: string;
 
@@ -28,31 +30,30 @@ export class Matches {
   address: string;
 
   @Prop({
-    required: true,
+    default: 20,
   })
-  max_headlines: number;
-
-  @Prop({ default: 0 })
-  max_substitutes: number;
+  maxHeadlines: number;
 
   @Prop([
     raw({
-      user_id: { type: String },
-      attend: { type: Boolean },
+      name: { type: String, required: true },
+      phone: { type: Number },
+      attend: { type: Boolean, required: true, default: false },
     }),
   ])
-  headlines: Record<string, any>[];
-
-  @Prop([
-    raw({
-      user_id: { type: String },
-      available: { type: Boolean },
-    }),
-  ])
-  substitutes: Record<string, any>[];
+  headlines: Players[];
 
   @Prop()
   note: string;
+
+  @Prop()
+  security_code: string;
+
+  @Prop()
+  created_at: Date;
+
+  @Prop()
+  update_at: Date;
 }
 
 export const MatchesSchema = SchemaFactory.createForClass(Matches);

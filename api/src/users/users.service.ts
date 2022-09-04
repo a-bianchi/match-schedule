@@ -8,6 +8,8 @@ import { Users, UsersDocument } from './schema';
 import { Tokens } from 'src/auth/types';
 
 import { InjectModel } from '@nestjs/mongoose';
+import { MailService } from 'src/mail/mail.service';
+import { getRandomPassword } from 'src/utils';
 
 interface UserCreateResponse extends Users, Tokens {}
 
@@ -16,6 +18,7 @@ export class UsersService {
   constructor(
     private readonly config: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
     @InjectModel(Users.name) private readonly usersModel: Model<UsersDocument>,
   ) {}
 
@@ -32,14 +35,23 @@ export class UsersService {
       const hash = await bycryptjs.hash(password, 10);
       const tokens = await this.getTokens(userId, email);
       const hashrt = await bycryptjs.hash(tokens.refresh_token, 10);
+      const confirm_password = getRandomPassword();
 
       const newUser = await this.usersModel.create({
         user_id: userId,
         email,
         hash,
         hashrt,
+        confirm_password,
         created_at: new Date().toISOString(),
       });
+
+      // TODO: servisar el envio de email
+      await this.mailService.sendUserConfirmation(
+        confirm_password,
+        email,
+        '2345',
+      );
 
       return {
         ...tokens,
@@ -87,6 +99,16 @@ export class UsersService {
     }
   }
 
+  async activeUser(userId: string): Promise<void> {
+    try {
+      await this.usersModel
+        .findOneAndUpdate({ user_id: userId }, { isActive: true })
+        .exec();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async getUserByEmail(email: string): Promise<Users | undefined> {
     const queryUser = this.usersModel.findOne<Users>({ email }).exec();
     return await queryUser;
@@ -95,6 +117,16 @@ export class UsersService {
   async getUserById(userId: string): Promise<Users | undefined> {
     const queryUser = this.usersModel
       .findOne<Users>({ user_id: userId })
+      .exec();
+    return await queryUser;
+  }
+
+  async getUserByConfirmPassword(
+    user_id: string,
+    confirm_password: string,
+  ): Promise<Users | undefined> {
+    const queryUser = this.usersModel
+      .findOne<Users>({ user_id, confirm_password })
       .exec();
     return await queryUser;
   }

@@ -4,21 +4,50 @@ import reportWebVitals from './reportWebVitals';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-
 import { theme } from './theme';
-import { SignIn } from './screens';
+
+import { BrowserRouter } from 'react-router-dom';
+
 import { AppState } from './context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Config } from './config';
+import MainNavigation from './navigation/main.navigation';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 5 * 1000,
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
 root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
-      <AppState>
-        <CssBaseline />
-        <SignIn />
-      </AppState>
+      <BrowserRouter>
+        <AppState>
+          <QueryClientProvider client={queryClient}>
+            <CssBaseline />
+            <MainNavigation />
+            <ReactQueryDevtools
+              initialIsOpen={
+                Config.environment === 'development' ? true : false
+              }
+            />
+          </QueryClientProvider>
+        </AppState>
+      </BrowserRouter>
     </React.StrictMode>
   </ThemeProvider>,
 );

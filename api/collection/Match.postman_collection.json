@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b9d7994c-0b41-43ab-9c24-e294e3ec645c",
+		"_postman_id": "15c316aa-1f20-4246-93b3-a2536b43cd1c",
 		"name": "Match",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "4404886"
+		"_exporter_id": "22995382"
 	},
 	"item": [
 		{
@@ -279,7 +279,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Global Cup 2\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    }\n  ],\n  \"substitutes\": [],\n  \"note\": \"All the best\"\n}",
+							"raw": "{\n    \"name\": \"Global Cup 2\",\n    \"time\": \"15:00hs\",\n    \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n    \"headlines\": [\n        {\n            \"name\": \"Alejo Bianchi\",\n            \"phone\": 123456,\n            \"attend\": true\n        },\n        {\n            \"name\": \"Jhon Doe\",\n            \"phone\": 123456,\n            \"attend\": true\n        }\n    ],\n    \"note\": \"All the best\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,7 +317,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"admin_user_id\": \"630ade6c3e291c63fd8f5e32\",\n  \"name\": \"Global Cup 12345\",\n  \"time\": \"15:00hs\",\n  \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n  \"max_headlines\": 10,\n  \"max_substitutes\": 0,\n  \"headlines\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": true\n    },\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": false\n    }\n  ],\n  \"substitutes\": [\n    {\n      \"user_id\": \"630ade6c3e291c63fd8f5e32\",\n      \"attend\": false\n    }\n  ],\n  \"note\": \"Test update\"\n}",
+							"raw": "{\n    \"user_id\": \"180d1e06-ae0e-492d-993f-29160bfc4eaa\",\n    \"name\": \"global cup 2\",\n    \"time\": \"15:00hs\",\n    \"address\": \"Av. Amazonas, Nro. 4, Bogotá\",\n    \"maxHeadlines\": 20,\n    \"headlines\": [\n        {\n            \"name\": \"Alejo Lopez\",\n            \"phone\": 123456,\n            \"attend\": true,\n            \"_id\": \"6313ac381ad6a80e0c537399\"\n        },\n        {\n            \"name\": \"Jhon Doe\",\n            \"phone\": 123456,\n            \"attend\": true,\n            \"_id\": \"6313ac381ad6a80e0c53739a\"\n        }\n    ],\n    \"note\": \"All the best v1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +325,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{path}}/v1/api/matches/630af5d16bf818f2c7790954",
+							"raw": "{{path}}/v1/api/matches/6313ac381ad6a80e0c537398",
 							"host": [
 								"{{path}}"
 							],
@@ -333,7 +333,7 @@
 								"v1",
 								"api",
 								"matches",
-								"630af5d16bf818f2c7790954"
+								"6313ac381ad6a80e0c537398"
 							]
 						}
 					},
@@ -373,6 +373,101 @@
 								"api",
 								"matches",
 								"630c14a7477d5ab19407b771"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matches Public",
+			"item": [
+				{
+					"name": "Match",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/v1/api/matches-public/6313e33e8e8a29d18f321534",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches-public",
+								"6313e33e8e8a29d18f321534"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Global Cup v2\",\n    \"time\": \"15:00hs\",\n    \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n    \"headlines\": [\n        {\n            \"name\": \"Alejo Bianchi\",\n            \"phone\": 123456,\n            \"attend\": true\n        },\n        {\n            \"name\": \"Jhon Doe\",\n            \"phone\": 123456,\n            \"attend\": true\n        }\n    ],\n    \"note\": \"All the best\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/matches-public",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches-public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Global Cup v1\",\n    \"time\": \"15:00hs\",\n    \"address\": \"Av. Amazonas, Nro. 5, Bogotá\",\n    \"maxHeadlines\": 20,\n    \"headlines\": [\n        {\n            \"name\": \"Alejo Bianchi\",\n            \"phone\": 123456,\n            \"attend\": true,\n            \"_id\": \"6313d14cf57c0d1e582031fb\"\n        },\n        {\n            \"name\": \"Jhon Doe\",\n            \"phone\": 123456,\n            \"attend\": true,\n            \"_id\": \"6313d14cf57c0d1e582031fc\"\n        }\n    ],\n    \"note\": \"All the best\",\n    \"security_code\": \"982678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/v1/api/matches-public/6313d14cf57c0d1e582031fa",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"v1",
+								"api",
+								"matches-public",
+								"6313d14cf57c0d1e582031fa"
 							]
 						}
 					},
