@@ -1,13 +1,36 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Formik, ErrorMessage } from 'formik';
+import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import { MatchSchema } from './match.schema';
+import { PlayerFields } from '../../components';
 
 type Props = {
   submit: (values: any) => void;
 };
 
 export const MatchForm = ({ submit }: Props) => {
+  const [players, setPlayers] = React.useState(['']);
+
+  const handleAddPlayer = (): void => {
+    setPlayers([...players, '']);
+  };
+
+  const handleRemovePlayer = (index: number): void => {
+    setPlayers(players.filter((_, i) => i !== index));
+  };
+
+  const getHeadlines = () => {
+    const item = new FormData();
+    return players.map((player, index) => {
+      const newPlayer = {
+        name: item.get(`${index}-name`)?.toString() || '',
+        phone: Number(item.get(`${index}-phone`)) || 0,
+        attend: true,
+      };
+      return newPlayer;
+    });
+  };
+
   return (
     <Formik
       initialValues={{
@@ -19,16 +42,12 @@ export const MatchForm = ({ submit }: Props) => {
       enableReinitialize
       validationSchema={MatchSchema}
       onSubmit={values => {
-        submit({ ...values, headlines: [{ name: 'holis', phone: 12345678 }] });
+        // TODO: Agregar jugadores ver como implementar
+        const headlines = getHeadlines();
+        console.log('headlines', headlines);
+        submit({ ...values, headlines });
       }}>
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-      }) => (
+      {({ values, errors, touched, handleChange, handleSubmit }) => (
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -92,14 +111,22 @@ export const MatchForm = ({ submit }: Props) => {
             id="note"
             onChange={handleChange}
             value={values.note}
-            error={errors.note && touched.note && errors.note ? true : false}
           />
-          <ErrorMessage
-            name="note"
-            render={error => (
-              <Typography style={{ color: 'red' }}>{error}</Typography>
-            )}
-          />
+          <Button
+            onClick={() => handleRemovePlayer(players.length - 1)}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}>
+            Sacar Jugador -
+          </Button>{' '}
+          <Button
+            onClick={handleAddPlayer}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}>
+            Agregar Jugador +
+          </Button>
+          {players.map((player, index) => (
+            <PlayerFields key={`${index}-player-field`} index={index} />
+          ))}
           <Button
             type="submit"
             fullWidth

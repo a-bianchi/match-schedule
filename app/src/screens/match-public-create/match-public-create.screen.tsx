@@ -8,37 +8,15 @@ import { useMutation } from '@tanstack/react-query';
 
 import { createMatchPublic } from '../../services/api';
 import { Alert, CircularProgress, Link } from '@mui/material';
-import { PlayerFields } from '../../components';
 import { MatchForm } from '../../forms';
 
 export const MatchPublicCreate = () => {
   const { isLoading, isSuccess, isError, error, mutate, data } =
     useMutation(createMatchPublic);
 
-  const [players, setPlayers] = React.useState(['']);
-
-  const handleAddPlayer = (): void => {
-    setPlayers([...players, '']);
-  };
-
-  const handleRemovePlayer = (index: number): void => {
-    setPlayers(players.filter((_, i) => i !== index));
-  };
-
   const newError = error as any;
 
   const redirect_url = window.location.href + `match/view/${data?._id}`;
-
-  const getHeadlines = (item: FormData) => {
-    return players.map((player, index) => {
-      const newPlayer = {
-        name: item.get(`${index}-name`)?.toString() || '',
-        phone: Number(item.get(`${index}-phone`)) || 0,
-        attend: true,
-      };
-      return newPlayer;
-    });
-  };
 
   return (
     <Container component="main" maxWidth="xs">

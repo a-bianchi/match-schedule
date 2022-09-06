@@ -4,10 +4,10 @@ import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 
 type Props = {
-  key: number;
+  index: number;
 };
 
-export const PlayerFields = ({ key }: Props) => {
+export const PlayerFields = ({ index }: Props) => {
   return (
     <>
       <Typography
@@ -16,25 +16,25 @@ export const PlayerFields = ({ key }: Props) => {
         display="block"
         variant="caption"
         fontSize={16}>
-        Jugador {key + 1}
+        Jugador {index + 1}
       </Typography>
       <Divider />
-      <div key={`${key}-player`}>
+      <div key={`${index}-player`}>
         <TextField
           margin="normal"
           required
           fullWidth
-          name={`${key}-name`}
+          name={`${index}-name`}
           label="Nombre"
-          id={`${key}-name`}
+          id={`${index}-name`}
         />
         <TextField
           margin="normal"
           required
           fullWidth
-          name={`${key}-phone`}
+          name={`${index}-phone`}
           label="Telefono"
-          id={`${key}-phone`}
+          id={`${index}-phone`}
         />
       </div>
     </>
