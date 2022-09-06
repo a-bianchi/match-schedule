@@ -73,12 +73,12 @@ export const createMatchPublic = async (
 export const updateMatchPublic = async (
   body: MatchPublicUpdate,
 ): Promise<MatchPublicResponse> => {
-  const response = await axiosInstance.patch<MatchPublicResponse>(
+  const { data } = await axiosInstance.patch<MatchPublicResponse>(
     `matches-public/${body.id}`,
     body,
   );
 
-  return response.data;
+  return data;
 };
 
 export const getMatchPublicById = async (
