@@ -1,14 +1,16 @@
 import React from 'react';
 import { Formik, ErrorMessage } from 'formik';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, TextField, Typography } from '@mui/material';
 import { MatchSchema } from './match.schema';
 import { PlayerFields } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   submit: (values: any) => void;
 };
 
 export const MatchForm = ({ submit }: Props) => {
+  const { t: translation } = useTranslation();
   const [players, setPlayers] = React.useState(['']);
 
   const handleAddPlayer = (): void => {
@@ -112,18 +114,26 @@ export const MatchForm = ({ submit }: Props) => {
             onChange={handleChange}
             value={values.note}
           />
-          <Button
-            onClick={() => handleRemovePlayer(players.length - 1)}
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}>
-            Sacar Jugador -
-          </Button>{' '}
-          <Button
-            onClick={handleAddPlayer}
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}>
-            Agregar Jugador +
-          </Button>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              '& > *': {
+                m: 1,
+              },
+            }}>
+            <ButtonGroup size="medium" aria-label="medium button group">
+              <Button
+                onClick={() => handleRemovePlayer(players.length - 1)}
+                sx={{ mt: 3, mb: 2 }}>
+                {translation('CreateMatch.remove-player')}
+              </Button>
+              <Button onClick={handleAddPlayer} sx={{ mt: 3, mb: 2 }}>
+                {translation('CreateMatch.add-player')}
+              </Button>
+            </ButtonGroup>
+          </Box>
           {players.map((player, index) => (
             <PlayerFields key={`${index}-player-field`} index={index} />
           ))}
@@ -132,7 +142,7 @@ export const MatchForm = ({ submit }: Props) => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}>
-            Crear
+            {translation('CreateMatch.create-match')}
           </Button>
         </Box>
       )}

@@ -1,17 +1,50 @@
 import { Routes, Route } from 'react-router-dom';
-import { Home, MatchPublicCreate, MatchPublicUpdate, SignIn } from '../screens';
+import { NavigationBar } from '../components';
+import {
+  Home,
+  MatchPublicCreate,
+  MatchPublicUpdate,
+  PageNotFound,
+  SignIn,
+} from '../screens';
 import { MatchPublicView } from '../screens/match-public-view/match-public-view.screen';
 import { SignUp } from '../screens/signUp/signUp.screen';
 import { ProtectedRoute } from './protected.route';
 
 export default function MainNavigation() {
+  // TODO: NavigationBar tiene que ser un componente que se renderice en algunas pantallas
   return (
     <Routes>
-      <Route path="/" element={<MatchPublicCreate />} />
+      <Route
+        path="/"
+        element={
+          <>
+            <NavigationBar />
+            <MatchPublicCreate />
+          </>
+        }
+      />
       <Route path="/signUp" element={<SignUp />} />
+      <Route path="/signIn" element={<SignIn />} />
       <Route path="/match/create" element={<MatchPublicCreate />} />
-      <Route path="/match/update/:id" element={<MatchPublicUpdate />} />
-      <Route path="/match/view/:id" element={<MatchPublicView />} />
+      <Route
+        path="/match/update/:id"
+        element={
+          <>
+            <NavigationBar />
+            <MatchPublicUpdate />
+          </>
+        }
+      />
+      <Route
+        path="/match/view/:id"
+        element={
+          <>
+            <NavigationBar />
+            <MatchPublicView />
+          </>
+        }
+      />
       <Route
         path="/home"
         element={
@@ -20,6 +53,7 @@ export default function MainNavigation() {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

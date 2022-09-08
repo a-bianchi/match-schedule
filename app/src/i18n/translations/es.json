@@ -1,8 +1,14 @@
 {
 	"translation": {
+		"NavigationBar": {
+			"title": "Kekipazo"
+		},
 		"CreateMatch": {
 			"title": "Crear partido",
-			"message-success": "El partido se ha creado correctamente, el codigo de seguridad es:"
+			"message-success": "El partido se ha creado correctamente, el codigo de seguridad es:",
+			"add-player": "Añadir jugador +",
+			"remove-player": "Eliminar jugador -",
+			"create-match": "Crear"
 		}
 	}
 }
