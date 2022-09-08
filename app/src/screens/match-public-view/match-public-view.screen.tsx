@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   Avatar,
   Button,
+  CircularProgress,
   List,
   ListItem,
   ListItemAvatar,
@@ -29,10 +30,6 @@ export const MatchPublicView = () => {
 
   const newError = error as any;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError) {
     return <div>Error! {newError.message}</div>;
   }
@@ -40,6 +37,7 @@ export const MatchPublicView = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      {isLoading ? <CircularProgress /> : null}
       <Box
         sx={{
           marginTop: 8,
@@ -56,7 +54,7 @@ export const MatchPublicView = () => {
             </Button>{' '}
             <Button
               variant="contained"
-              onClick={() => navigate(`/match/update/${data._id}`)}>
+              onClick={() => navigate(`/match/update/${data?._id}`)}>
               Modificar
             </Button>
           </p>

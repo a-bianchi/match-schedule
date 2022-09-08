@@ -33,7 +33,7 @@ export const MatchPublicCreate = () => {
           alignItems: 'center',
         }}>
         <Typography component="h1" variant="h5">
-          {translation('title')}
+          {translation('CreateMatch.title')}
         </Typography>
         <div>
           {isSuccess ? (
