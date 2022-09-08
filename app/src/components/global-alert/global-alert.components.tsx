@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Alert } from '@mui/material';
 import { GlobalAlertContext } from '../../context';
 
-type Props = {
-  test?: string;
-};
-
-export const GlobalAlert = ({ test }: Props) => {
+export const GlobalAlert = () => {
   const { hidden, node, message, onHidden } =
     React.useContext(GlobalAlertContext);
 
