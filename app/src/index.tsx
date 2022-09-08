@@ -15,6 +15,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Config } from './config';
 import MainNavigation from './navigation/main.navigation';
 
+import './i18n';
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {

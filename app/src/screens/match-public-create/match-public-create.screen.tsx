@@ -9,10 +9,13 @@ import { useMutation } from '@tanstack/react-query';
 import { createMatchPublic } from '../../services/api';
 import { Alert, CircularProgress, Link } from '@mui/material';
 import { MatchForm } from '../../forms';
+import { useTranslation } from 'react-i18next';
 
 export const MatchPublicCreate = () => {
   const { isLoading, isSuccess, isError, error, mutate, data } =
     useMutation(createMatchPublic);
+
+  const { t: translation } = useTranslation();
 
   const newError = error as any;
 
@@ -30,7 +33,7 @@ export const MatchPublicCreate = () => {
           alignItems: 'center',
         }}>
         <Typography component="h1" variant="h5">
-          Crear partido
+          {translation('title')}
         </Typography>
         <div>
           {isSuccess ? (

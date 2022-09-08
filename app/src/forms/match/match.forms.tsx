@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, ErrorMessage } from 'formik';
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { MatchSchema } from './match.schema';
 import { PlayerFields } from '../../components';
 
