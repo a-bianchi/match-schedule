@@ -1,7 +1,8 @@
 {
 	"translation": {
 		"CreateMatch": {
-			"title": "Crear partido"
+			"title": "Crear partido",
+			"message-success": "El partido se ha creado correctamente, el codigo de seguridad es:"
 		}
 	}
 }

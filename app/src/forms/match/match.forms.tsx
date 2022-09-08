@@ -23,8 +23,8 @@ export const MatchForm = ({ submit }: Props) => {
     const item = new FormData();
     return players.map((player, index) => {
       const newPlayer = {
-        name: item.get(`${index}-name`)?.toString() || '',
-        phone: Number(item.get(`${index}-phone`)) || 0,
+        name: item.get(`${index}-name`)?.toString() || 'test',
+        phone: Number(item.get(`${index}-phone`)) || 123,
         attend: true,
       };
       return newPlayer;

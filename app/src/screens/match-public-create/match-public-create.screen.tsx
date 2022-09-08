@@ -10,6 +10,7 @@ import { createMatchPublic } from '../../services/api';
 import { Alert, CircularProgress, Link } from '@mui/material';
 import { MatchForm } from '../../forms';
 import { useTranslation } from 'react-i18next';
+import { GlobalAlertContext } from '../../context';
 
 export const MatchPublicCreate = () => {
   const { isLoading, isSuccess, isError, error, mutate, data } =
@@ -17,9 +18,32 @@ export const MatchPublicCreate = () => {
 
   const { t: translation } = useTranslation();
 
-  const newError = error as any;
+  const { setMessage, setNode, onHidden } =
+    React.useContext(GlobalAlertContext);
 
   const redirect_url = window.location.href + `match/view/${data?._id}`;
+  React.useEffect(() => {
+    const newError = error as any;
+    if (isSuccess) {
+      setNode(
+        <Alert severity={'success'} onClose={onHidden}>
+          {translation('CreateMatch.message-success')}{' '}
+          <strong>{data?.security_code}</strong> - Link:{' '}
+          <Link href={`${redirect_url}`} color="inherit">
+            {`${redirect_url}`}
+          </Link>
+        </Alert>,
+      );
+    }
+    if (isError) {
+      setMessage({
+        message: newError?.message || 'Error',
+        severity: 'error',
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -35,26 +59,6 @@ export const MatchPublicCreate = () => {
         <Typography component="h1" variant="h5">
           {translation('CreateMatch.title')}
         </Typography>
-        <div>
-          {isSuccess ? (
-            <>
-              <br />
-              <Alert severity="success">
-                El partido se ha creado correctamente, el codigo de seguridad
-                es: <strong>{data?.security_code}</strong> - Link:{' '}
-                <Link href={`${redirect_url}`} color="inherit">
-                  {`${redirect_url}`}
-                </Link>
-              </Alert>
-            </>
-          ) : null}
-          {isError ? (
-            <>
-              <br />
-              <Alert severity="error">Error: {newError.message}</Alert>
-            </>
-          ) : null}
-        </div>
         <MatchForm submit={mutate} />
       </Box>
     </Container>

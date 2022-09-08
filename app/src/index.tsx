@@ -16,6 +16,7 @@ import { Config } from './config';
 import MainNavigation from './navigation/main.navigation';
 
 import './i18n';
+import { GlobalAlert } from './components/global-alert/global-alert.components';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -41,6 +42,7 @@ root.render(
         <AppState>
           <QueryClientProvider client={queryClient}>
             <CssBaseline />
+            <GlobalAlert />
             <MainNavigation />
             <ReactQueryDevtools
               initialIsOpen={
