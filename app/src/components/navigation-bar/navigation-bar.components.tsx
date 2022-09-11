@@ -7,14 +7,14 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const NavigationBar = () => {
   const { t: translation } = useTranslation();
   const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <IconButton
             size="large"
@@ -27,9 +27,9 @@ export const NavigationBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {translation('NavigationBar.title')}
           </Typography>
-          <Button color="inherit" onClick={() => navigate('/signIn')}>
+          {/* <Button color="inherit" onClick={() => navigate('/signIn')}>
             Login
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
     </Box>

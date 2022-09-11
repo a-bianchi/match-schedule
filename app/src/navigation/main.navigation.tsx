@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { NavigationBar } from '../components';
+import { Footer } from '../components/footer/footer.components';
 import {
   Home,
   MatchPublicCreate,
@@ -21,6 +22,7 @@ export default function MainNavigation() {
           <>
             <NavigationBar />
             <MatchPublicCreate />
+            <Footer />
           </>
         }
       />
